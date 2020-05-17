@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
+import './ImageCapture.css';
 
 const ImageCapture = React.memo(() => {
   const videoRef = useRef();
@@ -31,25 +32,28 @@ const ImageCapture = React.memo(() => {
   }, []);
 
   const captureImage = () => {
-    const getSnapshot = snapshotImage.current.getContext('2d');
-
-    getSnapshot.drawImage(videoRef, 0, 0, 680, 360);
+    if (videoRef.current.srcObject) {
+      const getSnapshot = snapshotImage.current.getContext('2d');
+      getSnapshot.drawImage(videoRef.current, 0, 0, 900, 700);
+    }
   };
 
   console.log(videoData.active);
   return (
-    <div className='video-capture'>
-      {!videoData.error ? (
-        <>
-          <video width='100%' height='700' ref={videoRef} />
-          <button onClick={captureImage}>Capture Image</button>
-        </>
-      ) : (
-        <p class='error'>{videoData.error}</p>
-      )}
-
+    <div className='container'>
+      <h1>Image Capture</h1>
+      <div className='video-capture'>
+        {!videoData.error ? (
+          <>
+            <video width='100%' height='700' ref={videoRef} />
+            <button onClick={captureImage}>Capture Image</button>
+          </>
+        ) : (
+          <p class='error'>{videoData.error}</p>
+        )}
+      </div>
       <div className='snapshot-image'>
-        <canvas width='100%' height='700' ref={snapshotImage} />
+        <canvas height='700' width='900' ref={snapshotImage} />
       </div>
     </div>
   );
