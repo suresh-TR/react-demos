@@ -10,7 +10,9 @@ const Details = () => {
   let dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(fetchPostDetails(id));
+    if (Object.keys(post.postDetails).length === 0) {
+      dispatch(fetchPostDetails(id));
+    }
   }, [id]);
 
   return (
